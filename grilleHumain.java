@@ -83,4 +83,18 @@ public class grilleHumain {
         }
         return infected;
     }
+
+    /* infectedAround, méthode qui prend en paramètre un entier ligne et un entier colonne, et qui renvoie le nombre
+     * d'humain infectés à cette case, et les 8 cases autour.*/
+    public int infectedAround(int ligne, int colonne){
+        int infected = 0;
+        for (int i = ligne-1; i <= ligne+1; i++){
+            for (int j = colonne-1; j <= colonne+1; j++){
+                if (i >= 0 && i < grille.length && j >= 0 && j < grille[0].length){
+                    infected += calculInfected(i, j);
+                }
+            }
+        }
+        return infected;
+    }
 }
