@@ -2,9 +2,10 @@
 public class Humain {
     private char statut;
     private int temps;
-    private final int dE;
-    private final int dI;
-    private final int dR;
+    private int dE;
+    private int dI;
+    private int dR;
+    private MTRandom random = new MTRandom();
 
     //Constructeur
 
@@ -20,7 +21,7 @@ public class Humain {
     }
 
     public Humain(int max, char s){
-        MTRandom random = new MTRandom();
+        
         random.nextInt(max);
         statutValide(s);
         this.statut=s;
@@ -59,19 +60,18 @@ public class Humain {
         this.statut=s;
     }
 
-    public generate_dE(){
-        MTRandom random = new MTRandom();
-        this.dE = random.negExp(3);
+    public void generate_dE(){
+        this.dE = (int) random.negExp(3);
+        
     }
 
-    public generate_dI(){
-        MTRandom random = new MTRandom();
-        this.dI = random.negExp(7);
+    public void generate_dI(){
+        this.dI = (int) random.negExp(7);
+        
     }
 
-    public generate_dR(){
-        MTRandom random = new MTRandom();
-        this.dR = random.negExp(365);
+    public void generate_dR(){
+        this.dR = (int) random.negExp(365);
     }
     
 }
