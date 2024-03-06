@@ -13,23 +13,11 @@ public class Humain {
         statutValide(s);
         this.statut=s;
         this.temps=t;
-        this.dE=E;
-        this.dI=I;
-        this.dR=R;
-
-        
+        this.generate_dE();
+        this.generate_dI();
+        this.generate_dR();
     }
 
-    public Humain(int max, char s){
-        
-        random.nextInt(max);
-        statutValide(s);
-        this.statut=s;
-        this.temps=0;
-        this.dE=0;
-        this.dI=0;
-        this.dR=0;
-    }
 
     private void statutValide(char s){
         if ((s!='S')&&(s!='E')&&(s!='I')&&(s!='R')){
@@ -58,6 +46,10 @@ public class Humain {
     public void SetStatut(char s){
         statutValide(s);
         this.statut=s;
+    }
+
+    public void SetTemps(int n){
+        this.temps = n;
     }
 
     public void generate_dE(){

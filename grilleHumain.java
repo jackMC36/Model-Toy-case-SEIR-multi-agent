@@ -4,6 +4,7 @@ import java.util.List;
 
 public class grilleHumain {
     private ArrayList<Humain>[][] grille;
+    public static MTRandom random = new MTRandom();
 
     // Constructeur
 
@@ -22,7 +23,7 @@ public class grilleHumain {
 
     private void initialiserLigne(int ligne, int colonnes) {
         for (int j = 0; j < colonnes; j++) {
-            grille[ligne][j] = new ArrayList<>();
+            grille[ligne][j] = new ArrayList<Humain>();
         }
     }
 
@@ -52,7 +53,7 @@ public class grilleHumain {
         }
     }
 
-    /* afficherGrille, méthode d'affichage d'un être humain. Il affiche les statuts des être humains ou 0 si
+    /* afficherGrille, méthode d'affichage d'un êtreligne humain. Il affiche les statuts des être humains ou 0 si
      * il n'y a aucun être humain dans une case. */
 
     public void afficherGrille() {
@@ -91,11 +92,59 @@ public class grilleHumain {
         int infected = 0;
         for (int i = ligne-1; i <= ligne+1; i++){
             for (int j = colonne-1; j <= colonne+1; j++){
-                if (i >= 0 && i < grille.length && j >= 0 && j < grille[0].length){
-                    infected += calculInfected(i, j);
+                if((j > (this.grille.length)-1 ) && (i > (this.grille.length)-1) ){
+                    j = 0;
+                    i = 0;
                 }
+                infected += calculInfected(i,j);
+
+                //infected += calculInfected(i%this.grille.length, j%this.grille[0].length);
             }
         }
         return infected;
     }
+
+    public double probability(Humain h, int ligne, int colonne){
+        return 1-Math.exp(-0.5*infectedAround(ligne, colonne));
+    }
+
+    public void checkEtat(Humain h, int ligne, int colonne){
+        switch (h.GetStatut()) {
+            case 'S':
+                if(random.negExp(1)<this.probability(h, ligne, colonne)){
+                    h.SetStatut('E');
+                    h.SetTemps(0);
+                }
+                break;
+            case 'E':
+                if(h.GetTemps()>h.GetdE()){
+                    h.SetStatut('I');
+                    h.SetTemps(0);
+                }
+                else{
+                    h.SetTemps(h.GetTemps()+1);
+                }
+                break;
+            case 'I':
+                if(h.GetTemps()>h.GetdI()){
+                    h.SetStatut('R');
+                    h.SetTemps(0);
+                }
+                else{
+                    h.SetTemps(h.GetTemps()+1);
+                }
+                break;
+            case 'R':
+                if(h.GetTemps()>h.GetdR()){
+                    h.SetStatut('S');
+                    h.SetTemps(0);
+                }
+                else{
+                    h.SetTemps(h.GetTemps()+1);
+                }
+                break;
+        }
+    }
+
+
 }
