@@ -17,8 +17,8 @@ public class Main {
         grilleHumain gh = new grilleHumain(5, 5);
         gh.addHumain(0, 0, h1);
         gh.addHumain(0, 0, h2);
-        gh.addHumain(0, 4, h3);
+        gh.addHumain(4, 4, h3);
         gh.afficherGrille();
-        System.out.println("Nombre d'infectés: " + gh.calculInfected(0, 0));
+        System.out.println("Nombre d'infectés: " + gh.infectedAround(4, 4));
     }
 }

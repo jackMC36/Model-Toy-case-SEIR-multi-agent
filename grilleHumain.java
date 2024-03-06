@@ -90,12 +90,17 @@ public class grilleHumain {
      * d'humain infectés à cette case, et les 8 cases autour.*/
     public int infectedAround(int ligne, int colonne){
         int infected = 0;
+        
         for (int i = ligne-1; i <= ligne+1; i++){
             for (int j = colonne-1; j <= colonne+1; j++){
-                if((j > (this.grille.length)-1 ) && (i > (this.grille.length)-1) ){
+                System.out.println(i+" "+ j+" "+ this.grille.length);
+                if( j > (this.grille.length) - 1 ){
                     j = 0;
+                }
+                if( i > (this.grille.length) - 1){
                     i = 0;
                 }
+
                 infected += calculInfected(i,j);
 
                 //infected += calculInfected(i%this.grille.length, j%this.grille[0].length);
