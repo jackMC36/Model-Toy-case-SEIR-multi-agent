@@ -1,4 +1,3 @@
-import nedragtna.random.MTRandom;
 
 public class Humain {
     private char statut;
@@ -20,15 +19,11 @@ public class Humain {
         
     }
 
-    public Humain(int max){
+    public Humain(int max, char s){
         MTRandom random = new MTRandom();
         random.nextInt(max);
-        if (random.nextInt(max) < 20){
-            this.statut='I';
-        }
-        else{
-            this.statut='S';
-        }
+        statutValide(s);
+        this.statut=s;
         this.temps=0;
         this.dE=0;
         this.dI=0;
@@ -64,6 +59,20 @@ public class Humain {
         this.statut=s;
     }
 
+    public generate_dE(){
+        MTRandom random = new MTRandom();
+        this.dE = random.negExp(3);
+    }
+
+    public generate_dI(){
+        MTRandom random = new MTRandom();
+        this.dI = random.negExp(7);
+    }
+
+    public generate_dR(){
+        MTRandom random = new MTRandom();
+        this.dR = random.negExp(365);
+    }
     
 }
 

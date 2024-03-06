@@ -1,4 +1,3 @@
-import nedragtna.random.MTRandom;
 
 /*Pour générer un nombre aléatoire:
  * 
@@ -14,7 +13,7 @@ public class Main {
         Humain h2 = new Humain('I', 0, 5, 7, 10);
         Humain h3 = new Humain('R', 0, 5, 7, 10);
         MTRandom random = new MTRandom();
-        int randomNumber = random.nextInt(32); 
+        double randomNumber = random.negExp(32); 
         System.out.println("Nombre généré: " + randomNumber);
         grilleHumain gh = new grilleHumain(5, 5);
         gh.addHumain(0, 0, h1);

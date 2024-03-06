@@ -3,15 +3,16 @@ import java.util.List;
 
 
 public class grilleHumain {
-    private List<Humain>[][] grille;
+    private ArrayList<Humain>[][] grille;
 
     // Constructeur
 
     /* grilleHumain, méthode de contruction de la classe grilleHumain qui créer un tableau à deux dimensions,
      * et qui place un tableau ou peuvent être placer des objets de classe Humain dans chaque case. */
 
+    @SuppressWarnings("unchecked")
     public grilleHumain(int lignes, int colonnes) {
-        grille = new ArrayList[lignes][colonnes];
+        this.grille = new ArrayList[lignes][colonnes];
         for (int i = 0; i < lignes; i++) {
             initialiserLigne(i, colonnes);
         }

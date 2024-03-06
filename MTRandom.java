@@ -1,4 +1,3 @@
-package nedragtna.random;
 
 /*
  * MTRandom : A Java implementation of the MT19937 (Mersenne Twister)
@@ -439,4 +438,9 @@ public class MTRandom extends Random {
 		}
 		return ibuf;
 	}
+
+	/*method negExp, qui genere un nombre entre 0 et inMean*/
+	public double negExp(double inMean) {
+        return -inMean * Math.log(1 - this.nextDouble());
+    }
 }
