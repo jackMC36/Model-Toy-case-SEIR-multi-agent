@@ -3,6 +3,7 @@ import java.util.List;
 
 
 public class grilleHumain {
+    // Attributs
     private ArrayList<Humain>[][] grille;
     public static MTRandom random = new MTRandom();
 
@@ -32,9 +33,21 @@ public class grilleHumain {
     /* addHumain,  méthode qui prend en paramètres un entier ligne, un entier colonne et un humain, et qui
      * l'ajoute à la case donnée.*/
 
-    public void addHumain(int ligne, int colonne, Humain humain) {
-        validerPosition(ligne, colonne);
-        grille[ligne][colonne].add(humain);
+    public void addHumain(Humain humain) {
+        int ligne = (int) random.negExp(grille.length);
+        int colonne = (int) random.negExp(grille.length);
+        grille[this.HorsTab(ligne,grille.length)][this.HorsTab(colonne, grille.length)].add(humain);
+    }
+
+    public void addAllHumains(int n, int infected){
+        for(int i = 0 ; i < infected ; i++){
+            Humain infect = new Humain('I');
+            this.addHumain(infect);
+        }
+        for(int i = 0 ; i < (n - infected) ; i++){
+            Humain h = new Humain('S');
+            this.addHumain(h);
+        }
     }
 
     /* getHumain, méthode qui prend en paramètre une ligne et une colonne et qui renvoie le tableau d'Humain
@@ -45,15 +58,7 @@ public class grilleHumain {
         return grille[ligne][colonne];
     }
     
-    /* validerPosition, méthode de validation qui vérifie qu'une position est bien situé dans le tableau. */
-
-    private void validerPosition(int ligne, int colonne) {
-        if (ligne < 0 || ligne >= grille.length || colonne < 0 || colonne >= grille[0].length) {
-            throw new IllegalArgumentException("Position hors limites");
-        }
-    }
-
-    /* afficherGrille, méthode d'affichage d'un êtreligne humain. Il affiche les statuts des être humains ou 0 si
+    /* afficherGrille, méthod0e d'affichage d'un êtreligne humain. Il affiche les statuts des être humains ou 0 si
      * il n'y a aucun être humain dans une case. */
 
     public void afficherGrille() {
@@ -72,6 +77,25 @@ public class grilleHumain {
             System.out.println(String.format(String.format("%%0%dd", (grille[i].length * 4) + 1), 0).replace("0","-"));
         }
     }
+
+    /* validerPosition, méthode de validation qui vérifie qu'une position est bien situé dans le tableau. */
+
+    private void validerPosition(int ligne, int colonne) {
+        if (ligne < 0 || ligne >= grille.length || colonne < 0 || colonne >= grille.length) {
+            throw new IllegalArgumentException("Position hors limites");
+        }
+    }
+
+    private int HorsTab (int index, int tailleTab){
+        if (index<0){
+            return index + tailleTab;
+        }
+        else if (index>=tailleTab){
+            return index % tailleTab;
+        }
+        return index;
+    }
+
     /* calculInfected, méthode qui prend en paramètre un entier ligne et un entier colonne, et qui renvoie le nombre
      * d'humain infectés à cette case.*/
     public int calculInfected(int ligne, int colonne){
@@ -85,7 +109,7 @@ public class grilleHumain {
         }
         return infected;
     }
-
+    
     /* infectedAround, méthode qui prend en paramètre un entier ligne et un entier colonne, et qui renvoie le nombre
      * d'humain infectés à cette case, et les 8 cases autour.*/
     public int infectedAround(int ligne, int colonne){
@@ -93,15 +117,11 @@ public class grilleHumain {
         
         for (int i = ligne-1; i <= ligne+1; i++){
             for (int j = colonne-1; j <= colonne+1; j++){
-                System.out.println(i+" "+ j+" "+ this.grille.length);
-                if( j > (this.grille.length) - 1 ){
-                    j = 0;
-                }
-                if( i > (this.grille.length) - 1){
-                    i = 0;
-                }
+                int ni = HorsTab(i, grille.length);
+                int nj = HorsTab(j, grille.length);
+                System.out.println("i= "+ni+"| j= "+nj);
+                infected += calculInfected(HorsTab(i, grille.length),HorsTab(j, grille.length));
 
-                infected += calculInfected(i,j);
 
                 //infected += calculInfected(i%this.grille.length, j%this.grille[0].length);
             }
@@ -150,6 +170,23 @@ public class grilleHumain {
                 break;
         }
     }
+
+    public void simulation(int nbTest){
+        for (int i = 0 ; i < nbTest; i++){
+
+            for (int j = 0 ; j < grille.length; j++){
+                this.checkEtat(humain, j, k);
+
+
+
+
+
+        }
+
+
+    }
+
+
 
 
 }

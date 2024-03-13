@@ -9,10 +9,10 @@ public class Humain {
 
     //Constructeur
 
-    public Humain(char s, int t, int E, int I, int R){
+    public Humain(char s){
         statutValide(s);
         this.statut=s;
-        this.temps=t;
+        this.temps=0;
         this.generate_dE();
         this.generate_dI();
         this.generate_dR();

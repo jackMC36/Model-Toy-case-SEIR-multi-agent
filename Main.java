@@ -10,15 +10,32 @@
 public class Main {
     public static MTRandom random = new MTRandom();
     public static void main(String[] args) {
-        Humain h1 = new Humain('S', 0, 5, 7, 10);
+        grilleHumain grille  = new grilleHumain(30, 30);
+        grille.addAllHumains(1000,2);
+        grille.afficherGrille();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*Humain h1 = new Humain('I', 0, 5, 7, 10);
         Humain h2 = new Humain('I', 0, 5, 7, 10);
         Humain h3 = new Humain('I', 0, 5, 7, 10);
         
-        grilleHumain gh = new grilleHumain(5, 5);
+        grilleHumain gh = new grilleHumain(30, 30);
         gh.addHumain(0, 0, h1);
         gh.addHumain(0, 0, h2);
-        gh.addHumain(4, 4, h3);
+        gh.addHumain(4, 0, h3);
         gh.afficherGrille();
-        System.out.println("Nombre d'infectés: " + gh.infectedAround(4, 4));
+        System.out.println("Nombre d'infectés: " + gh.infectedAround(4, 4));*/
     }
 }
