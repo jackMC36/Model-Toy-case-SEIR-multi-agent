@@ -3,11 +3,14 @@ import IPython.display as display
 
 import nbformat as nbf
 
-# Create a new Jupyter notebook
-notebook = nbf.v4.new_notebook()
 
-# Read the CSV file
+
+
 for i in range(1,101):
+    # Create a new Jupyter notebook
+    notebook = nbf.v4.new_notebook()
+
+    # Read the CSV file
     df = pd.read_csv("simulation_results_"+str(i)+".csv", names=["nombre_infected", "nombre_sain", "nombre_exposed", "nombre_recovered"])
 
     # For each row in the DataFrame
@@ -21,3 +24,4 @@ for i in range(1,101):
 
     with open("simulation_results_"+str(i)+".ipynb", "w") as f:
         nbf.write(notebook, f)
+        f.close()
