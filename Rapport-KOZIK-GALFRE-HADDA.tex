@@ -57,7 +57,7 @@ Dans cette étude, nous présentons le cadre général de notre modèle multi-ag
 
 Pour mettre en œuvre cette simulation, nous avons opté pour une approche combinant des classes Java avec l'utilisation du générateur Mersenne Twister. Et pour le rendu, nous avons inscrits nos résultats dans des fichiers CSV puis avons, à l'aide d'un notebook Jupyter, généré des graphiques pour les illustrer.
 
-\subsection{Générateur Mersenne Twister}
+\subsection{Générateur Mersenne Twister (MTrandom)}
 
 Le générateur Mersenne Twister, largement utilisé en Java pour la génération de nombres aléatoires, est apprécié pour sa haute qualité et sa performance. En Java, il est implémenté sous forme de classe, offrant une interface simple et efficace pour la génération de nombres aléatoires. Cette méthode de génération de nombres aléatoires est basée sur un algorithme développé par Matsumoto et Nishimura, qui produit des séquences de nombres pseudo-aléatoires présentant d'excellentes propriétés statistiques. En utilisant le générateur Mersenne Twister en Java, les développeurs peuvent facilement introduire des éléments de stochasticité dans leurs simulations, ce qui est crucial pour modéliser des phénomènes complexes tels que la propagation des maladies dans une population. La robustesse et la fiabilité de Mersenne Twister en font un choix populaire pour de nombreuses applications nécessitant une génération de nombres aléatoires de haute qualité en Java.
 
@@ -73,5 +73,91 @@ Nous avons également ajouter une méthode negExp dans la classe MTrandom, qui p
 \subsection{Implémentation de Classes}
 
 \subsubsection{Humain}
-Pour commencer, nous avons décider de créer une classe Humain, qui prend 
+Pour commencer, nous avons décider de créer une classe Humain, avec comme attributs un statut (statut) sous forme de caractère, un entier temps (temps), un entier de durée de temps exposés (dE), un entier de durée de temps infectés (dI) et enfin un entier de durée de temps de récupération (dR).
+
+On peut créer la classe avec le code suivant:
+
+\begin{lstlisting}
+
+public class Humain {
+    private char statut;
+    private int temps;
+    private int dE;
+    private int dI;
+    private int dR;
+    private MTRandom random = new MTRandom();
+
+    //Constructeur
+
+    public Humain(char s){
+        statutValide(s);
+        this.statut=s;
+        this.temps=0;
+        this.generate_dE();
+        this.generate_dI();
+        this.generate_dR();
+    }
+
+
+    private void statutValide(char s){
+        if ((s!='S')&&(s!='E')&&(s!='I')&&(s!='R')){
+            throw new IllegalArgumentException("statut non valide");
+        }
+    }
+
+
+	//Setteurs
+	
+    public void SetStatut(char s){
+        statutValide(s);
+        this.statut=s;
+    }
+
+    public void SetTemps(int n){
+        this.temps = n;
+    }
+
+    public void generate_dE(){
+        this.dE = (int) random.negExp(3);
+        
+    }
+
+    public void generate_dI(){
+        this.dI = (int) random.negExp(7);
+        
+    }
+
+    public void generate_dR(){
+        this.dR = (int) random.negExp(365);
+    }
+    
+}
+
+\end{lstlisting}
+Les méthodes generate\_dE, generate\_dI et generate\_dR permettent de générer des durées de temps exposés, de temps infectés et de récupération respectivement avec l'aide de la méthode negExp de la classe MTrandom.
+
+Nous avons également des Getteurs:
+
+\begin{lstlisting}
+    //Getteurs
+
+    public char GetStatut(){
+        return this.statut;
+    }
+    public int GetTemps(){
+        return this.temps;
+    }
+    public int GetdE(){
+        return this.dE;
+    }
+    public int GetdI(){
+        return this.dI;
+    }
+    public int GetdR(){
+        return this.dR;
+    }
+\end{lstlisting}
+
+\subsubsection{GrilleHumain}
+
 \end{document}

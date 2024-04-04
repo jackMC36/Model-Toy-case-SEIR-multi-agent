@@ -1,9 +1,7 @@
-# Ignore auxiliary files
 *.aux
 *.log
 *.out
 *.log
-# Ignore TOC files
 *.toc
 *.md.toc
 
