@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +99,7 @@ public class grilleHumain {
         return index;
     }
 
+
     /* calculInfected, méthode qui prend en paramètre un entier ligne et un entier colonne, et qui renvoie le nombre
      * d'humain infectés à cette case.*/
     public int calculInfected(int ligne, int colonne){
@@ -119,7 +123,6 @@ public class grilleHumain {
             for (int j = colonne-1; j <= colonne+1; j++){
                 int ni = HorsTab(i, grille.length);
                 int nj = HorsTab(j, grille.length);
-                System.out.println("i= "+ni+"| j= "+nj);
                 infected += calculInfected(HorsTab(i, grille.length),HorsTab(j, grille.length));
 
 
@@ -171,22 +174,80 @@ public class grilleHumain {
         }
     }
 
-    public void simulation(int nbTest){
-        for (int i = 0 ; i < nbTest; i++){
+    private void deplacementHumains(){
+        for (int i = 0; i < grille.length; i++) {
+            for (int j = 0; j < grille[i].length; j++) {
+                List<Humain> humains = new ArrayList<>(getHumains(i, j));
+                for (Humain h : humains) {
+                    int newLigne = HorsTab((int) random.negExp(300), grille.length);
+                    int newColonne = HorsTab((int) random.negExp(300), grille.length);
+                    grille[HorsTab(newLigne, grille.length)][HorsTab(newColonne, grille.length)].add(h);
+                    grille[i][j].remove(h);
+                }
+            }
+        }
+    }
 
-            for (int j = 0 ; j < grille.length; j++){
-                this.checkEtat(humain, j, k);
+    public void simulation(int simu){
+        /* Initialisation */
+        for (int i = 0; i < 19980; i++) {
+            Humain h = new Humain('S');
+            addHumain(h);
+        }
+
+        for (int i = 0; i < 20; i++) {
+            Humain infect = new Humain('I');
+            addHumain(infect);
+        }
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter("simulation_results_" + simu + ".csv", true))) {
+            writer.println(20 + "," + 19980 + "," + 0 + "," + 0);
+        }
+        catch (IOException e) {
+            System.out.println("Il y a une erreur, aucune écriture dans le fichier n'a été effectuée.");
+            e.printStackTrace();
+        }
 
 
-
-
+        for(int k=0;k<730;k++){
+            System.out.println("Jour "+k);
+            int nombre_infected = 0;
+            int nombre_sain = 0;
+            int nombre_exposed = 0;
+            int nombre_recovered = 0;
+        
+            for (int i = 0; i < 300; i++) {
+                for (int j = 0; j < 300; j++) {
+                    List<Humain> humains = new ArrayList<>(getHumains(i, j));
+                    for (Humain h : humains) {
+                        checkEtat(h, i, j);
+                        if(h.GetStatut()== 'I'){
+                            nombre_infected+=1;
+                        }
+                        else if(h.GetStatut()== 'S'){
+                            nombre_sain+=1;
+                        }
+                        else if(h.GetStatut()== 'E'){
+                            nombre_exposed+=1;
+                        }
+                        else if(h.GetStatut()== 'R'){
+                            nombre_recovered+=1;
+                        }
+                    }
+                }
+            }
+            this.deplacementHumains();
+            try (PrintWriter writer = new PrintWriter(new FileWriter("simulation_results_" + simu + ".csv", true))) {
+                writer.println(nombre_infected + "," + nombre_sain + "," + nombre_exposed + "," + nombre_recovered);
+            }
+            catch (IOException e) {
+                System.out.println("Il y a une erreur, aucune écriture dans le fichier n'a été effectuée.");
+                e.printStackTrace();
+            }
+        }   
 
         }
 
 
     }
 
-
-
-
-}

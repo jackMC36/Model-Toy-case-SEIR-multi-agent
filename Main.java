@@ -10,22 +10,12 @@
 public class Main {
     public static MTRandom random = new MTRandom();
     public static void main(String[] args) {
-        grilleHumain grille  = new grilleHumain(30, 30);
-        grille.addAllHumains(1000,2);
-        grille.afficherGrille();
-
-
-
-
-
-
-
-
-
-
-
-
-
+        for(int i=1;i<=100;i++){
+            grilleHumain grille  = new grilleHumain(300, 300);
+            grille.simulation(i);
+        }
+        
+        
 
         /*Humain h1 = new Humain('I', 0, 5, 7, 10);
         Humain h2 = new Humain('I', 0, 5, 7, 10);
