@@ -160,4 +160,40 @@ Nous avons également des Getteurs:
 
 \subsubsection{GrilleHumain}
 
+Suite à cela, nous avons opté pour la création d'une classe appelée `GrilleHumain`. Son objectif est de générer des instances représentant une grille toroïdale, où chaque case peut contenir une liste d'humains. Plusieurs humains distincts peuvent se trouver sur une même case.
+On peut la créer avec le code suivant:
+\begin{lstlisting}
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class grilleHumain {
+    // Attributs
+    private ArrayList<Humain>[][] grille;
+    public static MTRandom random = new MTRandom();
+
+    // Constructeur
+
+    /* grilleHumain, methode de contruction de la classe grilleHumain qui creer un tableau a deux dimensions,
+     * et qui place un tableau ou peuvent etre placer des objets de classe Humain dans chaque case. */
+
+    @SuppressWarnings("unchecked")
+    public grilleHumain(int lignes, int colonnes) {
+        this.grille = new ArrayList[lignes][colonnes];
+        for (int i = 0; i < lignes; i++) {
+            initialiserLigne(i, colonnes);
+        }
+    }
+
+    /* InitialiserLigne, methode utiliser dans le constructeur pour initialiser les lignes du tableau. */
+
+    private void initialiserLigne(int ligne, int colonnes) {
+        for (int j = 0; j < colonnes; j++) {
+            grille[ligne][j] = new ArrayList<Humain>();
+        }
+    }
+\end{lstlisting}
 \end{document}
