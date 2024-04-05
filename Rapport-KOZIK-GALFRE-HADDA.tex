@@ -1,10 +1,9 @@
 \documentclass[french]{article}
 \usepackage{babel}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
 \usepackage{times}
-\title{TP2: Projet Informatique }
-\author{Jacques KOZIK}
-
 \usepackage{listings}
 \usepackage{color}
 \usepackage{hyperref}
@@ -31,12 +30,16 @@
   tabsize=3
 }
 
+\title{TP4 : Simulation de la propagation d'une maladie au sein d'une population}
+\author{Jacques KOZIK, Arij HADDA et Killian GALFRE--VEYRET}
+
 \begin{document}
 \maketitle
 \newpage
 
 \tableofcontents
 \newpage
+
 \section{Introduction}
 
 La modélisation de la propagation des maladies dans une population est un outil essentiel pour comprendre et gérer les épidémies. 
@@ -57,7 +60,7 @@ Dans cette étude, nous présentons le cadre général de notre modèle multi-ag
 
 Pour mettre en œuvre cette simulation, nous avons opté pour une approche combinant des classes Java avec l'utilisation du générateur Mersenne Twister. Et pour le rendu, nous avons inscrits nos résultats dans des fichiers CSV puis avons, à l'aide d'un notebook Jupyter, généré des graphiques pour les illustrer.
 
-\subsection{Générateur Mersenne Twister (MTrandom)}
+\subsection{Générateur Mersenne Twister (MTrandom)} \label{sec/MT}
 
 Le générateur Mersenne Twister, largement utilisé en Java pour la génération de nombres aléatoires, est apprécié pour sa haute qualité et sa performance. En Java, il est implémenté sous forme de classe, offrant une interface simple et efficace pour la génération de nombres aléatoires. Cette méthode de génération de nombres aléatoires est basée sur un algorithme développé par Matsumoto et Nishimura, qui produit des séquences de nombres pseudo-aléatoires présentant d'excellentes propriétés statistiques. En utilisant le générateur Mersenne Twister en Java, les développeurs peuvent facilement introduire des éléments de stochasticité dans leurs simulations, ce qui est crucial pour modéliser des phénomènes complexes tels que la propagation des maladies dans une population. La robustesse et la fiabilité de Mersenne Twister en font un choix populaire pour de nombreuses applications nécessitant une génération de nombres aléatoires de haute qualité en Java.
 
@@ -136,7 +139,7 @@ public class Humain {
 \end{lstlisting}
 Les méthodes generate\_dE, generate\_dI et generate\_dR permettent de générer des durées de temps exposés, de temps infectés et de récupération respectivement avec l'aide de la méthode negExp de la classe MTrandom.
 
-Nous avons également des Getteurs:
+Nous avons également des Getteurs pour récupérer la valeur des attributs privé :
 
 \begin{lstlisting}
     //Getteurs
@@ -196,4 +199,7 @@ public class grilleHumain {
         }
     }
 \end{lstlisting}
+
+Nous avons ensuite créer deux méthodes permettant de remplir cette grile avec un nombre n d'individus. La première, addHumain() prend en paramètre un humain et le place de manière aléatoire sur une case de la grille. Pour cela, elle fait appel à la fonction negExp() qui génère un nombre compris entre 0 et la taille de la grille (300 dans notre cas) en se basant sur le générateur de nombre de Mersenne Twister (cf. section \ref{sec/MT}). Une seconde, addAllHumains(), qui se charge de créer les humains qui doivent être positionner sur la grille puis qui fait appel à la fonction susmentionné pour le faire.
+
 \end{document}
