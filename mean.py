@@ -3,19 +3,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Get the list of CSV files
+
 csv_files = [f for f in os.listdir('simulation_results_csv') if f.endswith('.csv')]
 
-# Read all CSV files into a list of DataFrames
 dfs = [pd.read_csv(os.path.join('simulation_results_csv', file)) for file in csv_files]
 
-# Concatenate all DataFrames along the columns axis
 all_data_df = pd.concat(dfs, axis=1)
-
-# Group by column names and calculate the mean
 mean_df = all_data_df.groupby(by=all_data_df.columns, axis=1).mean()
-
-# Write the DataFrame to a CSV file
 mean_df.to_csv('simulation_results_csv/mean_results.csv', index=False)
 
 df = pd.read_csv("simulation_results_csv/mean_results.csv", names=["nombre_infected", "nombre_sain", "nombre_exposed", "nombre_recovered"])
