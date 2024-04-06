@@ -1,12 +1,3 @@
-
-/*Pour générer un nombre aléatoire:
- * 
- *  MTRandom random = new MTRandom();
- *  int randomNumber = random.nextInt(); 
- */
-
-
-
 public class Main {
     public static MTRandom random = new MTRandom();
     public static void main(String[] args) {

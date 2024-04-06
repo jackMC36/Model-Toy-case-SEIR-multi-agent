@@ -53,14 +53,6 @@ public class grilleHumain {
         }
     }
 
-    /* getHumain, méthode qui prend en paramètre une ligne et une colonne et qui renvoie le tableau d'Humain
-     * situé dans cette case. */
-
-    public List<Humain> getHumains(int ligne, int colonne) {
-        validerPosition(ligne, colonne);
-        return grille[ligne][colonne];
-    }
-
     /* validerPosition, méthode de validation qui vérifie qu'une position est bien situé dans le tableau. */
 
     private void validerPosition(int ligne, int colonne) {
@@ -79,6 +71,13 @@ public class grilleHumain {
         return index;
     }
 
+    /* getHumain, méthode qui prend en paramètre une ligne et une colonne et qui renvoie le tableau d'Humain
+     * situé dans cette case. */
+
+    public List<Humain> getHumains(int ligne, int colonne) {
+        validerPosition(ligne, colonne);
+        return grille[ligne][colonne];
+    }
 
     /* calculInfected, méthode qui prend en paramètre un entier ligne et un entier colonne, et qui renvoie le nombre
      * d'humain infectés à cette case.*/
@@ -104,9 +103,6 @@ public class grilleHumain {
                 int ni = HorsTab(i, grille.length);
                 int nj = HorsTab(j, grille.length);
                 infected += calculInfected(HorsTab(i, grille.length),HorsTab(j, grille.length));
-
-
-                //infected += calculInfected(i%this.grille.length, j%this.grille[0].length);
             }
         }
         return infected;
@@ -225,9 +221,6 @@ public class grilleHumain {
                 e.printStackTrace();
             }
         }   
-
-        }
-
-
     }
+}
 

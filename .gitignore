@@ -4,6 +4,6 @@
 *.log
 *.toc
 *.md.toc
-
 *.synctex.gz
 *.out
+*.class

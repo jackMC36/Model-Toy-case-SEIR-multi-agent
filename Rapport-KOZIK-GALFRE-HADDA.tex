@@ -5,7 +5,7 @@
 \usepackage{lmodern}
 \usepackage{times}
 \usepackage{listings}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{graphicx}
 
@@ -14,7 +14,7 @@
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{frame=tb,
-  language=C,
+  language=Java,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
@@ -27,11 +27,17 @@
   stringstyle=\color{mauve},
   breaklines=true,
   breakatwhitespace=true,
+  literate={é}{{\'e}}1
+  				 {ù}{{\`{u}}}1
+  				 {â}{{\^{a}}}1
+  				 {à}{{\`{a}}}1
+  				 {è}{{\`e}}1,
   tabsize=3
 }
 
-\title{TP4 : Simulation de la propagation d'une maladie au sein d'une population}
+\title{\vfill TP4 : Simulation de la propagation d'une maladie au sein d'une population}
 \author{Jacques KOZIK, Arij HADDA et Killian GALFRE--VEYRET}
+\date{Version du 06 avril 2024\vfill}
 
 \begin{document}
 \maketitle
@@ -200,6 +206,26 @@ public class grilleHumain {
     }
 \end{lstlisting}
 
-Nous avons ensuite créer deux méthodes permettant de remplir cette grile avec un nombre n d'individus. La première, addHumain() prend en paramètre un humain et le place de manière aléatoire sur une case de la grille. Pour cela, elle fait appel à la fonction negExp() qui génère un nombre compris entre 0 et la taille de la grille (300 dans notre cas) en se basant sur le générateur de nombre de Mersenne Twister (cf. section \ref{sec/MT}). Une seconde, addAllHumains(), qui se charge de créer les humains qui doivent être positionner sur la grille puis qui fait appel à la fonction susmentionné pour le faire.
+Nous avons ensuite créer deux méthodes permettant de remplir cette grile avec un nombre n d'individus. La première, addHumain() prend en paramètre un humain et le place de manière aléatoire sur une case de la grille. Pour cela, elle fait appel à la fonction negExp() qui génère un nombre compris entre 0 et la taille de la grille (300 dans notre cas) en se basant sur le générateur de nombre de Mersenne Twister (cf. section \ref{sec/MT}). Une seconde, addAllHumains(), qui se charge de créer les humains qui doivent être positionnés sur la grille puis qui fait appel à la fonction susmentionné pour le faire.
 
+\lstinputlisting[language=Java, firstline=36, lastline=54]{grilleHumain.java}
+
+Dans un troisième temps, nous avons créés les méthodes permettant de calculer le nombre d'humains inféctés par rapport à une case donnée. Il y en a 3, la première récupère une liste d'humain (il y en a une dans chaque case). La seconde, compte le nombre d'humain dont le statut et 'I' (pour Infected) dans la case et la troisième fait répéter ce comptage sur les 8 cases autour.
+
+\lstinputlisting[language=Java, firstline=74, lastline=112]{grilleHumain.java}
+
+\noindent Puis ensuite les dernières méthodes créées servent à mettre en place la simulation :
+
+\begin{description} \label{liste/descMéthode}
+\item[checkEtat] Regarde l'état d'un humain et met en place la conduite défini dans le sujet (eg. pour un infécté, on regarde d'abord si le temps depuis lequel il est dans cet état, est supérieur au temps pendant lequel il doit y rester - défini aléatoirement - puis si c'est le cas, alors on lui change son statut pour le suivant, sinon, on incrémente le temps passé dans ce statut de +1)
+\item[deplacementHumains] Déplace tout les humain sur une autre case quelle qu'elle soit et de manière aléatoire.
+\item[simulation] Lance la simulation et écrit au fur et à mesure, le nombre d'humain dans chaque état dans un fichier CSV. Pour cela, elle crée d'abord 19 980 humains dans l'état Susceptible et 20 dans l'état Infecté. Ensuite, elle lance une boucle de 730 itérations, qui correspond à 730 jours. A l'intérieur, pour chaque humain, on appel la fonction checkEtat() puis ensuite on incrémente en fonction de son nouvel état, les variables permettant de compter le nombre d'individu dans chaque état. Une fois fait pour tout les individus, on appel la fonction deplacementHumains() puis on inscrit les résultats des variables compteur dans le CSV. ET on recommence 729 fois !
+\end{description}
+
+\lstinputlisting[language=Java, firstline=115, lastline=224]{grilleHumain.java}
+
+\subsubsection{Main}
+Cette classe, qui se veut la plus simple et courte possible, permet le lancement du programme. Pour cela, elle crée une méthode \textit{main} qui, à travers une boucle for, éxecute 100 fois les 2 commandes suivante : création d'une grille vide puis lancement de la simulation par l'appel de la fonction simulation() qui gère toute la simulation (cf. section \ref{liste/descMéthode}).
+
+\lstinputlisting[language=Java, firstline=1, lastline=9]{Main.java}
 \end{document}
