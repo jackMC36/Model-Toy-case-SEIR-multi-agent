@@ -53,34 +53,6 @@ public class grilleHumain {
         }
     }
 
-    /* getHumain, méthode qui prend en paramètre une ligne et une colonne et qui renvoie le tableau d'Humain
-     * situé dans cette case. */
-
-    public List<Humain> getHumains(int ligne, int colonne) {
-        validerPosition(ligne, colonne);
-        return grille[ligne][colonne];
-    }
-    
-    /* afficherGrille, méthod0e d'affichage d'un êtreligne humain. Il affiche les statuts des être humains ou 0 si
-     * il n'y a aucun être humain dans une case. */
-
-    public void afficherGrille() {
-        for (int i = 0; i < grille.length; i++) {
-            for (int j = 0; j < grille[i].length; j++) {
-                System.out.print("| ");
-                if (grille[i][j].isEmpty()) {
-                    System.out.print("0 ");
-                } else {
-                    for (Humain humain : grille[i][j]) {
-                        System.out.print(humain.GetStatut() + " ");
-                    }
-                }
-            }
-            System.out.println("|");
-            System.out.println(String.format(String.format("%%0%dd", (grille[i].length * 4) + 1), 0).replace("0","-"));
-        }
-    }
-
     /* validerPosition, méthode de validation qui vérifie qu'une position est bien situé dans le tableau. */
 
     private void validerPosition(int ligne, int colonne) {
@@ -99,6 +71,13 @@ public class grilleHumain {
         return index;
     }
 
+    /* getHumain, méthode qui prend en paramètre une ligne et une colonne et qui renvoie le tableau d'Humain
+     * situé dans cette case. */
+
+    public List<Humain> getHumains(int ligne, int colonne) {
+        validerPosition(ligne, colonne);
+        return grille[ligne][colonne];
+    }
 
     /* calculInfected, méthode qui prend en paramètre un entier ligne et un entier colonne, et qui renvoie le nombre
      * d'humain infectés à cette case.*/
@@ -122,9 +101,6 @@ public class grilleHumain {
         for (int i = ligne-1; i <= ligne+1; i++){
             for (int j = colonne-1; j <= colonne+1; j++){
                 infected += calculInfected(HorsTab(i, grille.length),HorsTab(j, grille.length));
-
-
-                //infected += calculInfected(i%this.grille.length, j%this.grille[0].length);
             }
         }
         return infected;
@@ -243,9 +219,6 @@ public class grilleHumain {
                 e.printStackTrace();
             }
         }   
-
-        }
-
-
     }
+}
 
