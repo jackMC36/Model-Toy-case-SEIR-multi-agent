@@ -121,8 +121,6 @@ public class grilleHumain {
         
         for (int i = ligne-1; i <= ligne+1; i++){
             for (int j = colonne-1; j <= colonne+1; j++){
-                int ni = HorsTab(i, grille.length);
-                int nj = HorsTab(j, grille.length);
                 infected += calculInfected(HorsTab(i, grille.length),HorsTab(j, grille.length));
 
 
