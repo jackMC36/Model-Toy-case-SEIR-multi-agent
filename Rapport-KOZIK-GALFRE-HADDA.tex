@@ -233,6 +233,10 @@ Cette classe, qui se veut la plus simple et courte possible, permet le lancement
 En réalisant la simulation 100 fois, on obtient toujours des résultats proche les uns des autres. Voici le graphe obtenu lors de notre 50-ième itération. \newline
 \includegraphics[scale=0.5]{./simulation_results_png/simulation_results_50.png} On constate - à chaque fois - que le pique d'exposé est atteint entre le 25-ième jour et le 30-ième. Le pique des infectés suit logiquement quelques jours après, autour du 30-ième jour. Puis celui des 'Recovered' encore après. Autour du 55-ième jour. A l'inverse, le nombre de 'Susceptible' chute en même temps que celui de 'Exposed' et 'Infected' augmente, soit autour du 30-ième jour. Il reste ensuite très faible puisque les personnes ayant le status 'Recovered' ne peuvent pas être réinfectés pendant un certain temps.
 
+La moyenne des resultats se presente sur ce graphe:
+\includegraphics[scale=0.5]{moyenneSimu.jpeg}
+Les tendances observées dans les moyennes des états SEIR reflètent la dynamique de propagation de la maladie dans le modèle multi-agent. La diminution du nombre moyen d'individus susceptibles témoigne de l'effet de la transmission de la maladie sur la population, tandis que l'augmentation du nombre moyen d'individus exposés et infectieux illustre la progression de l'épidémie au fil du temps.
+
 \section{Conclusion}
 La modélisation de la propagation des maladies dans une population est cruciale pour comprendre les épidémies. A travers ce projet, nous avons développé un modèle multi-agent permettant de simuler la propagation d'une maladie au sein d'une population, en mettant en œuvre des mécanismes tels que l'exposition, l'infection, la récupération et la perte d'immunité. En utilisant une approche basée sur des classes Java et le générateur Mersenne Twister, nous avons pu créer un modèle robuste et flexible. Et à l'aide d'un notebook Jupyter nous avons pu réaliser des graphiques pour étudier les résultats de nos simulations.
 
