@@ -233,8 +233,14 @@ Cette classe, qui se veut la plus simple et courte possible, permet le lancement
 En réalisant la simulation 100 fois, on obtient toujours des résultats proche les uns des autres. Voici le graphe obtenu lors de notre 50-ième itération. \newline
 \includegraphics[scale=0.5]{./simulation_results_png/simulation_results_50.png} On constate - à chaque fois - que le pique d'exposé est atteint entre le 25-ième jour et le 30-ième. Le pique des infectés suit logiquement quelques jours après, autour du 30-ième jour. Puis celui des 'Recovered' encore après. Autour du 55-ième jour. A l'inverse, le nombre de 'Susceptible' chute en même temps que celui de 'Exposed' et 'Infected' augmente, soit autour du 30-ième jour. Il reste ensuite très faible puisque les personnes ayant le status 'Recovered' ne peuvent pas être réinfectés pendant un certain temps.
 
-La moyenne des resultats se presente sur ce graphe:
-\includegraphics[scale=0.5]{moyenneSimu.jpeg}
+\newpage
+
+\subsection{Moyenne}
+
+La moyenne des resultats se presente sur ce graphe:\\
+
+\includegraphics[scale=0.5]{./simulation_results_png/mean_results.png}
+
 Les tendances observées dans les moyennes des états SEIR reflètent la dynamique de propagation de la maladie dans le modèle multi-agent. La diminution du nombre moyen d'individus susceptibles témoigne de l'effet de la transmission de la maladie sur la population, tandis que l'augmentation du nombre moyen d'individus exposés et infectieux illustre la progression de l'épidémie au fil du temps.
 
 \section{Conclusion}
@@ -243,4 +249,128 @@ La modélisation de la propagation des maladies dans une population est cruciale
 Notre étude a donc révélé des résultats cohérents, avec des simulations répétées montrant des schémas similaires dans la dynamique de la maladie. Le pic d'exposition est généralement observé entre le 25e et le 30e jour, suivi du pic des infectés quelques jours plus tard, et enfin du pic des personnes récupérées. De plus, nous avons constaté une diminution significative du nombre de personnes susceptibles après le pic d'infections, témoignant de l'acquisition d'une immunité partielle au sein de la population.
 
 Ces résultats démontrent l'efficacité de notre modèle pour simuler la propagation des maladies et pour comprendre les tendances épidémiologiques. En combinant des techniques de modélisation multi-agent avec des outils de programmation robustes, notre approche offre un cadre précieux pour étudier et prévoir les épidémies dans des contextes réels.
+
+\newpage
+
+\section{Annexes}
+
+\subsection{Fichier Python}
+\subsubsection{CSV vers IPYNB}
+
+Pour convertir les résultats écrits dans un fichier CSV en un fichier IPYNB, nous avons utilisé le code suivant après avoir utilisé la méthode .simulation(int simu) (voir section 2.2.2) :\\
+
+\begin{lstlisting}
+import pandas as pd
+import IPython.display as display
+
+import nbformat as nbf
+
+for i in range(1,101):
+    #création dun nouveau notebook
+    notebook = nbf.v4.new_notebook()
+
+    # lecture du fichier CSV
+    df = pd.read_csv("simulation_results_"+str(i)+".csv", names=["nombre_infected", "nombre_sain", "nombre_exposed", "nombre_recovered"])
+	
+	#itération sur les ligne du fichier CSV
+    for index, row in df.iterrows():
+        cell = nbf.v4.new_markdown_cell(source="## Simulation results")
+        notebook.cells.append(cell)
+        cell.source = str(row)
+	
+	# ouverture et écriture du notebook dans un fichier .ipynb
+    with open("simulation_results_"+str(i)+".ipynb", "w") as f:
+        nbf.write(notebook, f)
+        f.close()
+\end{lstlisting}
+
+\subsection{CSV vers PNG}
+
+Après avoir convertit les résultats écrits dans un fichier CSV en un fichier IPYNB (voir section 5.1.1) , nous avons utilisé le code suivant pour créer un graph illustrant les données des fichiers CSV:\\
+
+\begin{lstlisting}
+import pandas as pd
+import os
+import matplotlib.pyplot as plt
+
+
+
+
+for i in range(1,101):
+	#lecture des fichiers CSV
+    df = pd.read_csv("simulation_results_csv/simulation_results_"+str(i)+".csv", names=["nombre_infected", "nombre_sain", "nombre_exposed", "nombre_recovered"])
+    
+    #création du graphique
+    plt.figure(figsize=(10, 6))
+    plt.plot(df['nombre_infected'], label='Infected')
+    plt.plot(df['nombre_sain'], label='Healthy')
+    plt.plot(df['nombre_exposed'], label='Exposed')
+    plt.plot(df['nombre_recovered'], label='Recovered')
+    plt.legend(loc='best')
+    plt.title('Simulation Results')
+    plt.xlabel('Iteration')
+    plt.ylabel('Nombre d''individus')
+    
+    #création du dossier 'simulation results_png'
+    os.makedirs("simulation_results_png", exist_ok=True)
+    
+    #sauvegarde du fichier PNG dans le dossier
+    plt.savefig("/home/jack/Documents/COURS/INFORMATIQUE/Java/L2/S4/projet-simulation-S4-2024/simulation_results_png/simulation_results_"+str(i)+".png")
+    
+    #fermeture du graphique
+    plt.close()
+    
+\end{lstlisting}
+
+\subsubsection{Calcul de la moyenne des fichiers CSV}
+
+Afin de calculer la moyenne des fichiers CSV, nous avons utilisé le code suivant pour créer un graph illustrant les données^:\\\\
+
+\begin{lstlisting}
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# création dune liste avec tous les noms de fichier CSV
+csv_files = [f for f in os.listdir('simulation_results_csv') if f.endswith('.csv')]
+
+# lecture des fichier CSV dans des dataframes
+dfs = [pd.read_csv(os.path.join('simulation_results_csv', file)) for file in csv_files]
+
+
+# concatenation de tous les dataframes en un seul
+all_data_df = pd.concat(dfs, axis=1)
+
+#calcul de la moyenne du dataframe
+mean_df = all_data_df.groupby(by=all_data_df.columns, axis=1).mean()
+
+# écriture du dataframe vers un fichier CSV
+mean_df.to_csv('simulation_results_csv/mean_results.csv', index=False)
+
+# lecture du fichier CSV vers un dataframe
+df = pd.read_csv("simulation_results_csv/mean_results.csv", names=["nombre_infected", "nombre_sain", "nombre_exposed", "nombre_recovered"])
+
+# creation du graphique
+plt.figure(figsize=(10, 6))
+plt.plot(df['nombre_infected'], label='Infected')
+plt.plot(df['nombre_sain'], label='Healthy')
+plt.plot(df['nombre_exposed'], label='Exposed')
+plt.plot(df['nombre_recovered'], label='Recovered')
+plt.legend(loc='best')
+plt.title('Simulation Results')
+plt.xlabel('Iteration')
+plt.ylabel('Nombre d''individus')
+
+#verification que le dossier existe, sil nexiste pas, il le creer
+os.makedirs("simulation_results_png", exist_ok=True)
+
+# sauvegarde du graphique dans un fichier PNG
+plt.savefig("/home/jack/Documents/COURS/INFORMATIQUE/Java/L2/S4/projet-simulation-S4-2024/simulation_results_png/mean_results.png")
+
+#fermeture du graphique
+plt.close()
+
+\end{lstlisting}
+
 \end{document}
